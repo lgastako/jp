@@ -58,6 +58,12 @@
         (is (not (jp/contains-all? m [:a :b])))
         (is (not (jp/contains-all? m [:b])))))))
 
+(deftest test-filterm
+  (testing "basics"
+    (is (= {:a :b :e :f}
+           (jp/filterm (fn [[k v]] (not= k v))
+                       {:a :b :c :c :e :f})))))
+
 (deftest test-not-implemented!
   (testing "throws an exception"
     (is (thrown? #?(:clj Exception :cljs :default)
@@ -100,5 +106,22 @@
         (is (= 6
                (jp/ensure-with (comp not string?) read-s 6)))))))
 
+(deftest test-sortv-by
+  (testing "basics"
+    (let [items-list '({:a 3} {:a 1} {:a 4} {:a 1} {:a 5} {:a 9})
+          items-vec  (vec items-list)
+          sorted-list (sort-by     :a items-vec)
+          sorted-vec  (jp/sortv-by :a items-list)]
+      (is (= sorted-list
+             sorted-vec))
+      (is (vector? sorted-vec)))))
+
+(deftest test-sort-table-by
+  (testing "basics"
+    (is (= [{:id 2 :name "a"}
+            {:id 1 :name "x"}]
+           (jp/sort-table-by :name
+                             {1 {:id 1 :name "x"}
+                              2 {:id 2 :name "a"}})))))
 
 ;; #?(:clj (run-tests))

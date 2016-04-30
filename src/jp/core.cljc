@@ -46,6 +46,14 @@
     arg
     (xform arg)))
 
+(defn filterm
+  "Filters a seq of [k v] pairs (like a map) and returns a map."
+  [f xs]
+  (->> xs
+       seq
+       (filter f)
+       (into {})))
+
 (defn not-implemented!
   "Logs and raises an exception indicating that the execution of the code
   has reached a point that is not implemented yet."
@@ -64,3 +72,21 @@
   (if (sequential? x)
     x
     [x]))
+
+(defn sortv-by
+  "Like `sort-by` but returns a vector instead of a list."
+  ([keyfn coll]
+   (vec (sort-by keyfn coll)))
+  ([keyfn comp coll]
+   (vec (sort-by keyfn comp coll))))
+
+(defn sort-table-by
+  "Sort a `:foo/by-id` style \"table\" by a \"column\".
+
+   eg. (sort-table {1 {:id 1 :name \"x\"} 2 {:id 2 :name \"a\"}})
+   ;; => [{:id 2 :name \"a\"} {:id 1 :name \"x\"}]
+  "
+  [k table]
+  (->> table
+       vals
+       (sortv-by k)))
