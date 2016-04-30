@@ -1,6 +1,7 @@
-(defproject jp "0.1.0-SNAPSHOT"
-  :description "FIXME: write description"
-  :url "http://example.com/FIXME"
+(defproject jp "1.0.0"
+  :description "An ode to jutils."
+  :url "http://github.com/lgastako"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[org.clojure/clojure "1.7.0"]])
+  :dependencies [[its-log "3.0.0"]
+                 [org.clojure/clojure "1.8.0"]])
