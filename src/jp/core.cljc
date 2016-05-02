@@ -1,6 +1,26 @@
 (ns jp.core
   (:require [its.log :as log]))
 
+(defn all-paths
+  "Find all terminal key paths in a map.
+
+   eg.
+      (all-paths {:a {:b 1 :c 2} :d {:e {:f 3}}})
+      ;; => [[:a :b] [:a :c] [:d :e :f]]
+  "
+  [m]
+  ;; http://stackoverflow.com/questions/21768802/how-can-i-get-the-nested-keys-of-a-map-in-clojure
+  ;; (log/debug ::all-paths :m :redacted)
+  (if-not (map? m)
+    []
+    (vec (mapcat (fn [[k v]]
+                  (let [sub (all-paths v)
+                        nested (map #(into [k] %) (filter (comp not empty?) sub))]
+                    (if (seq nested)
+                      nested
+                      [[k]])))
+                m))))
+
 (defn args->opts
   "Converts an arglist of k/v pairs (eg. `[:a 1 :b 2]`) into a map (`{:a 1 :b 2}`)."
   [args]
@@ -53,6 +73,8 @@
        seq
        (filter f)
        (into {})))
+
+(declare seq!)
 
 (defn not-implemented!
   "Logs and raises an exception indicating that the execution of the code

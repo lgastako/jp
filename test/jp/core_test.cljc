@@ -4,6 +4,30 @@
             #?(:cljs [cljs.reader])
             [jp.core :as jp]))
 
+(deftest test-all-paths
+
+  (testing "given an empty map returns an empty vector"
+    (is (= []
+           (jp/all-paths {}))))
+
+  (testing "given a simple (single level) map returns its keys"
+    (is (= (mapv vector [:foo :baz :bam])
+           (jp/all-paths {:foo :bar
+                          :baz :bif
+                          :bam :boom}))))
+
+  (testing "given a nested map returns all of its korks"
+    (is (= [[:foo]
+            [:baz :bif]
+            [:baz :boom :bop]
+            [:baz :boom :y]
+            [:w]]
+           (jp/all-paths {:foo :bar
+                          :baz {:bif :bam
+                                :boom {:bop :blorp
+                                       :y :z}}
+                          :w :x})))))
+
 (deftest test-args->opts
   (testing "given nil"
     (let [args nil]
