@@ -1,4 +1,4 @@
-(defproject jp "1.0.1"
+(defproject jp "1.1.0"
   :description "An ode to jutils."
   :url "http://github.com/lgastako"
   :license {:name "Eclipse Public License"
