@@ -8,6 +8,10 @@ This change log follows the conventions of
 As of release 1.1.0 this project adheres to
 [Semantic Versioning](http://semver.org/).
 
+## [1.1.1] - 2016-05-02
+### Added
+- Link to v1.0.0 at bottom of this CHANGELOG.md file
+
 ## [1.1.0] - 2016-05-02
 ### Added
 - Function: all-paths
@@ -37,3 +41,4 @@ As of release 1.1.0 this project adheres to
 [unreleased]: https://github.com/lgastako/jp/compare/1.1.0...HEAD
 [1.1.0]: https://github.com/lgastako/jp/compare/1.0.1...1.1.0
 [1.0.1]: https://github.com/lgastako/jp/compare/1.0.0...1.0.1
+[1.0.0]: https://github.com/lgastako/jp/tree/v1.0.0
