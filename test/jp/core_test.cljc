@@ -148,4 +148,43 @@
                              {1 {:id 1 :name "x"}
                               2 {:id 2 :name "a"}})))))
 
+(defn std-truncate-test [s sz suffix expected]
+  (is (= expected
+         (jp/truncate s sz suffix))))
+
+(deftest test-truncate
+  (let [s "ABCDEFGH"]
+
+    (testing "with a `suff` longer than `sz`"
+      (let [suff "..."]
+
+        (testing "explodes"
+          (is (thrown? Error (jp/truncate s 2 suff))))))
+
+    (testing "with supplied suffix"
+      (let [suff "abc"]
+
+        (are [sz ex] (= ex (jp/truncate s sz suff))
+          3   "abc"
+          4   "Aabc"
+          5   "ABabc"
+          6   "ABCabc"
+          7   "ABCDabc"
+          8   "ABCDEFGH"
+          9   "ABCDEFGH"
+          10  "ABCDEFGH")))
+
+    (testing "with default suffix"
+
+      (are [sz ex] (= ex (jp/truncate s sz))
+        3  "..."
+        4  "A..."
+        5  "AB..."
+        6  "ABC..."
+        7  "ABCD..."
+        8  "ABCDEFGH"
+        9  "ABCDEFGH"
+        10 "ABCDEFGH"))))
+
+
 ;; #?(:clj (run-tests))

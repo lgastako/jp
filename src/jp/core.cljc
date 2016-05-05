@@ -112,3 +112,19 @@
   (->> table
        vals
        (sortv-by k)))
+
+(defn truncate
+  "Truncate string `s` to length `sz` with suffix `suff` defaulting to `...`.
+   a non-positive size"
+  ([s sz]
+   (truncate s sz "..."))
+  ([s sz suff]
+   (assert (<= (count suff) sz))
+   (let [len     (count s)
+         sufflen (count suff)]
+     (cond
+       (not (pos? len)) ""
+       (<= len sz)      s
+       :else            (let [r    (min (- sz sufflen) len)
+                              base (subs s 0 r)]
+                          (str base suff))))))
