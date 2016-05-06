@@ -91,9 +91,10 @@
   containing `x`.  Helpful when writing functions that operate on either an
   individual item or a collection of items (ie to turn a korks into a ks)."
   [x]
-  (if (sequential? x)
-    x
-    [x]))
+  (when-not (nil? x)
+    (if (sequential? x)
+      x
+      [x])))
 
 (defn sortv-by
   "Like `sort-by` but returns a vector instead of a list."

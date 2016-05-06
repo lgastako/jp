@@ -94,6 +94,10 @@
                  (jp/not-implemented! :testing)))))
 
 (deftest test-seq!
+  (testing "when given nil"
+    (testing "returns nil"
+      (is (nil? (jp/seq! nil)))))
+
   (testing "when given a sequence"
     (let [sequences [[]
                      [1 2 3 4]
@@ -108,8 +112,7 @@
   (testing "when given a non-sequence"
     (let [non-sequences [{:a :b}
                          5
-                         "foo"
-                         nil]]
+                         "foo"]]
 
       (testing "returns it wrapped in a vector"
         (doseq [x non-sequences]
