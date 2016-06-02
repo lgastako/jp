@@ -8,7 +8,14 @@ This change log follows the conventions of
 As of release 1.1.0 this project adheres to
 [Semantic Versioning](http://semver.org/).
 
-## [1.2.2] - 2016-05-6
+## [1.3.0] - 2016-06-02
+### Added
+- Function: deep-merge-with
+- Function: enumerate
+- Function: keys-in
+- Function: set-timeout!
+
+## [1.2.2] - 2016-05-06
 ### Fixed
 - seq! now returns nil for nil
 
@@ -47,7 +54,11 @@ As of release 1.1.0 this project adheres to
   - seq!
 - Tests for each of these functions
 
-[unreleased]: https://github.com/lgastako/jp/compare/1.1.0...HEAD
+[unreleased]: https://github.com/lgastako/jp/compare/1.3.0...HEAD
+[1.2.1]: https://github.com/lgastako/jp/compare/1.2.2...1.3.0
+[1.2.1]: https://github.com/lgastako/jp/compare/1.2.1...1.2.2
+[1.2.1]: https://github.com/lgastako/jp/compare/1.1.1...1.2.1
+[1.1.1]: https://github.com/lgastako/jp/compare/1.1.0...1.1.1
 [1.1.0]: https://github.com/lgastako/jp/compare/1.0.1...1.1.0
 [1.0.1]: https://github.com/lgastako/jp/compare/1.0.0...1.0.1
 [1.0.0]: https://github.com/lgastako/jp/tree/v1.0.0
