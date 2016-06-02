@@ -8,7 +8,7 @@ test-clj:
 	lein test
 
 test-cljs:
-	lein cljsbuild test once
+	lein doo phantom test auto
 
 tc: test-clj
 ts: test-cljs

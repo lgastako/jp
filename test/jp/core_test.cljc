@@ -1,8 +1,10 @@
 (ns jp.core-test
   (:require #?(:clj  [clojure.test :refer :all]
-               :cljs [cljs.test :refer-macros [are deftest is testing]])
+               :cljs [cljs.test :refer-macros [are deftest is testing run-tests]])
             #?(:cljs [cljs.reader])
+            #?(:cljs [doo.runner :refer-macros [doo-tests]])
             [jp.core :as jp]))
+
 
 (deftest test-all-paths
 
@@ -28,6 +30,7 @@
                                        :y :z}}
                           :w :x})))))
 
+
 (deftest test-args->opts
   (testing "given nil"
     (let [args nil]
@@ -42,6 +45,7 @@
       (testing "returns an appropriate map of those args"
         (is (= {:foo "bar"
                 :baz {:bif 5}}))))))
+
 
 (deftest test-call-back
   (testing "given a function that does not throw an exception"
@@ -59,6 +63,7 @@
         (let [result (jp/call-back explode 3 5)]
           (is (= nil
                  result)))))))
+
 
 (deftest test-contains-all?
   (testing "given a map that contains all keys"
@@ -82,16 +87,38 @@
         (is (not (jp/contains-all? m [:a :b])))
         (is (not (jp/contains-all? m [:b])))))))
 
+
+(deftest test-deep-merge-with
+  (testing "does what it says on the tin"
+    (is (= {:a {:b {:z 3, :c 3, :d {:z 9, :x 1, :y 2}}, :e 103}, :f 4}
+           (jp/deep-merge-with +
+                               {:a {:b {:c 1 :d {:x 1 :y 2}} :e 3} :f 4}
+                               {:a {:b {:c 2 :d {:z 9} :z 3} :e 100}})))))
+
+
+
 (deftest test-filterm
   (testing "basics"
     (is (= {:a :b :e :f}
            (jp/filterm (fn [[k v]] (not= k v))
                        {:a :b :c :c :e :f})))))
 
+
+(deftest test-keys-in
+  (testing "gives you the keys you crave"
+    (is (= '([:a :b]
+             [:a :c]
+             [:d :e :f])
+           (jp/keys-in {:a {:b 5
+                            :c 6}
+                        :d {:e {:f 7}}})))))
+
+
 (deftest test-not-implemented!
   (testing "throws an exception"
     (is (thrown? #?(:clj Exception :cljs :default)
                  (jp/not-implemented! :testing)))))
+
 
 (deftest test-seq!
   (testing "when given nil"
@@ -119,6 +146,13 @@
           (is (= [x]
                  (jp/seq! x))))))))
 
+
+(deftest test-enumerate
+  (testing "enumerates as in python"
+    (is (= '([0 :a] [1 :b] [2 :c])
+           (jp/enumerate [:a :b :c])))))
+
+
 (deftest test-ensure-with
   (letfn [(read-s [x]
             (#?(:clj read-string
@@ -133,6 +167,7 @@
         (is (= 6
                (jp/ensure-with (comp not string?) read-s 6)))))))
 
+
 (deftest test-sortv-by
   (testing "basics"
     (let [items-list '({:a 3} {:a 1} {:a 4} {:a 1} {:a 5} {:a 9})
@@ -143,6 +178,7 @@
              sorted-vec))
       (is (vector? sorted-vec)))))
 
+
 (deftest test-sort-table-by
   (testing "basics"
     (is (= [{:id 2 :name "a"}
@@ -151,9 +187,11 @@
                              {1 {:id 1 :name "x"}
                               2 {:id 2 :name "a"}})))))
 
+
 (defn std-truncate-test [s sz suffix expected]
   (is (= expected
          (jp/truncate s sz suffix))))
+
 
 (deftest test-truncate
   (let [s "ABCDEFGH"]
@@ -162,7 +200,8 @@
       (let [suff "..."]
 
         (testing "explodes"
-          (is (thrown? Error (jp/truncate s 2 suff))))))
+          (is (thrown? #?(:clj Exception :cljs js/Errror)
+                       (jp/truncate s 2 suff))))))
 
     (testing "with supplied suffix"
       (let [suff "abc"]
@@ -190,4 +229,5 @@
         10 "ABCDEFGH"))))
 
 
-;; #?(:clj (run-tests))
+;; (run-tests)
+#?(:cljs (doo-tests 'jp.core-test))
