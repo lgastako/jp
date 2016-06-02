@@ -200,7 +200,7 @@
       (let [suff "..."]
 
         (testing "explodes"
-          (is (thrown? #?(:clj Exception :cljs js/Error)
+          (is (thrown? #?(:clj Throwable :cljs js/Error)
                        (jp/truncate s 2 suff))))))
 
     (testing "with supplied suffix"
