@@ -10,5 +10,6 @@
                  [org.clojure/clojurescript "1.8.40"]]
   :cljsbuild {:builds {:test {:source-paths ["src" "test"]
                               :compiler {:optimizations :whitespace
+                                         :output-to "out/jp-test.js"
                                          :main jp.runner
                                          :pretty-print true}}}})
